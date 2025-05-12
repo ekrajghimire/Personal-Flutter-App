@@ -78,20 +78,20 @@ class _ContactScreenState extends State<ContactScreen> {
         ListTile(
           leading: const Icon(Icons.email),
           title: const Text('Email'),
-          subtitle: const Text('contact@example.com'),
-          onTap: () => _launchEmail('contact@example.com'),
+          subtitle: const Text('contact.ekrajghimire@gmail.com'),
+          onTap: () => _launchEmail('contact.ekrajghimire@gmail.com'),
         ),
         ListTile(
           leading: const Icon(Icons.phone),
           title: const Text('Phone'),
-          subtitle: const Text('+1 (123) 456-7890'),
-          onTap: () => _launchPhone('+11234567890'),
+          subtitle: const Text('+91-8904006160'),
+          onTap: () => _launchPhone('+91-8904006160'),
         ),
         ListTile(
           leading: const Icon(Icons.location_on),
           title: const Text('Location'),
-          subtitle: const Text('San Francisco, CA'),
-          onTap: () => _launchMaps('San Francisco, CA'),
+          subtitle: const Text('Bangalore, KA'),
+          onTap: () => _launchMaps('Jain Global Campus, Bangalore'),
         ),
       ],
     );
@@ -104,22 +104,22 @@ class _ContactScreenState extends State<ContactScreen> {
         _buildSocialButton(
           icon: Icons.language,
           label: 'Website',
-          onTap: () => _launchUrl('https://example.com'),
+          onTap: () => _launchUrl('https://ekrajghimire.com.np'),
         ),
         _buildSocialButton(
           icon: Icons.code,
           label: 'GitHub',
-          onTap: () => _launchUrl('https://github.com/example'),
+          onTap: () => _launchUrl('https://github.com/ekrajghimire'),
         ),
         _buildSocialButton(
           icon: Icons.work,
           label: 'LinkedIn',
-          onTap: () => _launchUrl('https://linkedin.com/in/example'),
+          onTap: () => _launchUrl('https://linkedin.com/in/ekrajghimire'),
         ),
         _buildSocialButton(
           icon: Icons.camera_alt,
           label: 'Instagram',
-          onTap: () => _launchUrl('https://instagram.com/example'),
+          onTap: () => _launchUrl('https://instagram.com/manishg_official'),
         ),
       ],
     );
@@ -281,7 +281,7 @@ class _ContactScreenState extends State<ContactScreen> {
   }
 
   Future<void> _launchEmail(String email) async {
-    final url = 'mailto:$email';
+    final url = 'mailto:contact.ekrajghimire@gmail.com';
     if (await canLaunchUrl(Uri.parse(url))) {
       await launchUrl(Uri.parse(url));
     } else {
