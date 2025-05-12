@@ -151,11 +151,11 @@ class AboutScreen extends StatelessWidget {
         Column(
           children: [
             Container(
-              width: 20,
+              width: 10,
               height: 20,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).primaryColorLight,
               ),
             ),
             if (!isLast)
@@ -173,8 +173,8 @@ class AboutScreen extends StatelessWidget {
             children: [
               Text(
                 period,
-                style: TextStyle(
-                  color: Theme.of(context).primaryColor,
+                style: const TextStyle(
+                  color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
