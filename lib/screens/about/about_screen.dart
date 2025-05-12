@@ -16,7 +16,7 @@ class AboutScreen extends StatelessWidget {
             Text('Who I Am', style: Theme.of(context).textTheme.headlineMedium),
             const SizedBox(height: 12),
             const Text(
-              'I am a passionate developer with expertise in mobile and web applications. '
+              'I am a passionate web/app developer with expertise in mobile and web applications. '
               'With a keen eye for design and a commitment to creating intuitive user experiences, '
               'I strive to build applications that not only look good but also provide real value to users.',
               style: TextStyle(fontSize: 16),
@@ -30,8 +30,8 @@ class AboutScreen extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             const Text(
-              'I have over 5 years of experience in software development, working with various technologies '
-              'including Flutter, React, and Node.js. My journey in tech began with a passion for problem-solving '
+              'I have over 4 years of experience in software development, working with various technologies '
+              'including Flutter, MySQL, React, and Node.js. My journey in tech began with a passion for problem-solving '
               'and has evolved into a career focused on creating elegant solutions for complex challenges.',
               style: TextStyle(fontSize: 16),
             ),
@@ -56,13 +56,22 @@ class AboutScreen extends StatelessWidget {
             ),
             const SizedBox(height: 24),
 
-            // Education/Experience Timeline
+            // Experience Section
             Text(
-              'Education & Experience',
+              'Experience',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(height: 16),
-            _buildTimeline(context),
+            _buildExperienceTimeline(context),
+            const SizedBox(height: 24),
+
+            // Education Section
+            Text(
+              'Education',
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            const SizedBox(height: 16),
+            _buildEducationTimeline(context),
           ],
         ),
       ),
@@ -70,10 +79,13 @@ class AboutScreen extends StatelessWidget {
   }
 
   Widget _buildSkillChip(String label) {
-    return Chip(label: Text(label), backgroundColor: Colors.blue.shade100);
+    return Chip(
+      label: Text(label, style: const TextStyle(color: Colors.black)),
+      backgroundColor: Colors.blue.shade100,
+    );
   }
 
-  Widget _buildTimeline(BuildContext context) {
+  Widget _buildExperienceTimeline(BuildContext context) {
     return Column(
       children: [
         _buildTimelineItem(
@@ -96,13 +108,29 @@ class AboutScreen extends StatelessWidget {
           'Junior Developer',
           'StartUp Tech',
           'Worked on web and mobile applications using React and React Native.',
+          isLast: true,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildEducationTimeline(BuildContext context) {
+    return Column(
+      children: [
+        _buildTimelineItem(
+          context,
+          '2021 - 2025',
+          'B.Tech Computer Science & Engineering',
+          'JAIN (Deemed-to-be University)',
+          'Graduated with engineering degree, specializing in Mobile Application and Cloud Technology.',
+          isLast: true,
         ),
         _buildTimelineItem(
           context,
-          '2014 - 2018',
-          'BSc Computer Science',
-          'University of Technology',
-          'Graduated with honors, specializing in software development.',
+          '2018 - 2020',
+          '+2 (Computer Science)',
+          'Tilottama Campus',
+          'Graduated with Science, Physic, Chemistry, Mathematics, and Computer Science',
           isLast: true,
         ),
       ],
