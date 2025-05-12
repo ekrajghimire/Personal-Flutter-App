@@ -132,14 +132,34 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _downloadResume() async {
-    // Replace with your resume URL
-    const url = 'https://example.com/resume.pdf';
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url));
-    } else {
+    // Change this URL if needed
+    const url =
+        'https://www.ekrajghimire.com.np/wp-content/uploads/2023/05/EkrajGhimire.pdf';
+
+    try {
+      final Uri uri = Uri.parse(url);
+
+      // Use launchUrl with the correct mode for opening PDFs
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(
+          uri,
+          mode: LaunchMode.externalApplication, // Opens in external app
+        );
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                'Could not open PDF. No app available to handle this file.',
+              ),
+            ),
+          );
+        }
+      }
+    } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Could not download resume')),
+          SnackBar(content: Text('Error opening resume: ${e.toString()}')),
         );
       }
     }
