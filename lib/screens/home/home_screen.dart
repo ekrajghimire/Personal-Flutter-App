@@ -19,9 +19,10 @@ class _HomeScreenState extends State<HomeScreen> {
   final int _selectedIndex = 0;
 
   final List<String> _roles = [
-    "I'm a Developer",
-    "I'm a Designer",
-    "I'm a Photographer",
+    "Web/App Developer",
+    "Graphics Designer",
+    "UI/UX Designer",
+    "Photographer",
   ];
 
   @override
@@ -42,6 +43,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       backgroundImage: AssetImage('assets/images/profile.jpg'),
                     ),
                     const SizedBox(height: 20),
+                    // Text
+                    const Text(
+                      'Hello, I\'m',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+
                     // Animated Text
                     AnimatedText(roles: _roles),
                     const SizedBox(height: 20),
