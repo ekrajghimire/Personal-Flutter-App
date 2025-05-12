@@ -7,6 +7,8 @@ import 'package:port/screens/projects/projects_screen.dart';
 import 'package:port/screens/portfolio/portfolio_screen.dart';
 import 'package:port/screens/blog/blog_screen.dart';
 import 'package:port/screens/contact/contact_screen.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'dart:math' as math;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -37,10 +39,92 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.all(20),
                 child: Column(
                   children: [
-                    // Profile Photo
-                    CircleAvatar(
-                      radius: 80,
-                      backgroundImage: AssetImage('assets/images/profile.jpg'),
+                    // Profile Photo with animated light behind it
+                    Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        // Animated light effect behind the profile photo
+                        Container(
+                              width: 180,
+                              height: 180,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Theme.of(
+                                      context,
+                                    ).primaryColor.withOpacity(0.3),
+                                    Theme.of(
+                                      context,
+                                    ).colorScheme.secondary.withOpacity(0.3),
+                                  ],
+                                ),
+                              ),
+                            )
+                            .animate(
+                              onPlay: (controller) => controller.repeat(),
+                            )
+                            .shimmer(
+                              duration: 2.seconds,
+                              color: Colors.white.withOpacity(0.7),
+                            )
+                            .animate()
+                            .scale(
+                              begin: const Offset(1.0, 1.0),
+                              end: const Offset(1.1, 1.1),
+                              duration: 3.seconds,
+                            )
+                            .then()
+                            .scale(
+                              begin: const Offset(1.1, 1.1),
+                              end: const Offset(1.0, 1.0),
+                              duration: 3.seconds,
+                            )
+                            .then(delay: 0.5.seconds),
+
+                        // Second glow effect
+                        Container(
+                              width: 170,
+                              height: 170,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                gradient: SweepGradient(
+                                  colors: [
+                                    Theme.of(
+                                      context,
+                                    ).primaryColor.withOpacity(0.0),
+                                    Theme.of(
+                                      context,
+                                    ).primaryColor.withOpacity(0.2),
+                                    Theme.of(
+                                      context,
+                                    ).colorScheme.secondary.withOpacity(0.2),
+                                    Theme.of(
+                                      context,
+                                    ).primaryColor.withOpacity(0.0),
+                                  ],
+                                  stops: const [0.0, 0.3, 0.7, 1.0],
+                                  transform: const GradientRotation(
+                                    math.pi / 4,
+                                  ),
+                                ),
+                              ),
+                            )
+                            .animate(
+                              onPlay: (controller) => controller.repeat(),
+                            )
+                            .rotate(duration: 8.seconds, end: 1.0)
+                            .animate()
+                            .fadeIn(duration: 1.seconds),
+
+                        // Profile photo
+                        CircleAvatar(
+                          radius: 80,
+                          backgroundImage: AssetImage(
+                            'assets/images/profile.jpg',
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 20),
                     // Text
