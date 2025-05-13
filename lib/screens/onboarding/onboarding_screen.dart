@@ -27,7 +27,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     ),
     OnboardingContent(
       title: 'Let\'s Connect',
-      description: 'Get in touch for collaborations and opportunities',
+      description: 'Get in touch with me for collaborations and opportunities',
       image: 'assets/images/onboarding3.png',
     ),
   ];
