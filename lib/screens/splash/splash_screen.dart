@@ -73,7 +73,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
             // App Name
             Text(
-                  'My Portfolio',
+                  'Ekraj\'s Portfolio',
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -86,7 +86,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
             // Tagline
             Text(
-                  'Showcase your best work',
+                  'Showcasing about me',
                   style: Theme.of(context).textTheme.bodyLarge,
                 )
                 .animate()
