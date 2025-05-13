@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:port/screens/home/home_screen.dart';
 import 'package:port/screens/onboarding/onboarding_content.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:port/utils/page_transitions.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -131,9 +132,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('onboarding_complete', true);
     if (mounted) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-      );
+      Navigator.of(
+        context,
+      ).pushReplacement(PageTransitions.zoomTransition(const HomeScreen()));
     }
   }
 }

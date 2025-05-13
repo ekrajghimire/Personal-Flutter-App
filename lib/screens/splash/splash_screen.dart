@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:port/screens/home/home_screen.dart';
 import 'package:port/screens/onboarding/onboarding_screen.dart';
+import 'package:port/utils/page_transitions.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -24,19 +25,14 @@ class _SplashScreenState extends State<SplashScreen> {
 
     if (!mounted) return;
 
-    // Check if user has completed onboarding
+    // For testing: Reset onboarding state to false so it always shows
     final prefs = await SharedPreferences.getInstance();
-    final onboardingComplete = prefs.getBool('onboarding_complete') ?? false;
+    await prefs.setBool('onboarding_complete', false);
 
+    // Always go to onboarding screen
     if (mounted) {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder:
-              (context) =>
-                  onboardingComplete
-                      ? const HomeScreen()
-                      : const OnboardingScreen(),
-        ),
+        PageTransitions.fadeTransition(const OnboardingScreen()),
       );
     }
   }

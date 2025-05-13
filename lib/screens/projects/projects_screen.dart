@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ProjectsScreen extends StatefulWidget {
   const ProjectsScreen({super.key});
@@ -11,6 +12,16 @@ class ProjectsScreen extends StatefulWidget {
 class _ProjectsScreenState extends State<ProjectsScreen> {
   String _currentFilter = 'All';
   final List<String> _filters = ['All', 'Mobile', 'Web', 'Design'];
+
+  // Search functionality
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   final List<ProjectItem> _projects = [
     ProjectItem(
@@ -72,20 +83,82 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
   ];
 
   List<ProjectItem> get _filteredProjects {
-    if (_currentFilter == 'All') {
-      return _projects;
+    List<ProjectItem> filtered = _projects;
+
+    // Apply category filter
+    if (_currentFilter != 'All') {
+      filtered =
+          filtered
+              .where((project) => project.category == _currentFilter)
+              .toList();
     }
-    return _projects
-        .where((project) => project.category == _currentFilter)
-        .toList();
+
+    // Apply search filter if search query is not empty
+    if (_searchQuery.isNotEmpty) {
+      filtered =
+          filtered.where((project) {
+            return project.title.toLowerCase().contains(
+                  _searchQuery.toLowerCase(),
+                ) ||
+                project.description.toLowerCase().contains(
+                  _searchQuery.toLowerCase(),
+                ) ||
+                project.technologies.any(
+                  (tech) =>
+                      tech.toLowerCase().contains(_searchQuery.toLowerCase()),
+                );
+          }).toList();
+    }
+
+    return filtered;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('My Projects')),
+      appBar: AppBar(
+        title: const Text('My Projects'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              _showSearchDialog();
+            },
+          ),
+        ],
+      ),
       body: Column(
         children: [
+          // Search bar - visible if search query is not empty
+          if (_searchQuery.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Search: $_searchQuery',
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () {
+                          setState(() {
+                            _searchQuery = '';
+                            _searchController.clear();
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
           // Filter Chips
           Padding(
             padding: const EdgeInsets.symmetric(
@@ -118,8 +191,30 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
           Expanded(
             child:
                 _filteredProjects.isEmpty
-                    ? const Center(
-                      child: Text('No projects found for this category.'),
+                    ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.search_off,
+                            size: 64,
+                            color: Colors.grey,
+                          ),
+                          const SizedBox(height: 16),
+                          const Text('No projects found'),
+                          const SizedBox(height: 8),
+                          if (_searchQuery.isNotEmpty)
+                            ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  _searchQuery = '';
+                                  _searchController.clear();
+                                });
+                              },
+                              child: const Text('Clear Search'),
+                            ),
+                        ],
+                      ),
                     )
                     : GridView.builder(
                       padding: const EdgeInsets.all(16.0),
@@ -139,6 +234,48 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  void _showSearchDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Search Projects'),
+          content: TextField(
+            controller: _searchController,
+            decoration: const InputDecoration(
+              hintText: 'Search by title, description, or technology',
+              prefixIcon: Icon(Icons.search),
+              border: OutlineInputBorder(),
+            ),
+            onChanged: (value) {
+              // Real-time search updates as user types
+              setState(() {
+                _searchQuery = value;
+              });
+            },
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _searchQuery = _searchController.text;
+                });
+                Navigator.pop(context);
+              },
+              child: const Text('Search'),
+            ),
+          ],
+        );
+      },
     );
   }
 
